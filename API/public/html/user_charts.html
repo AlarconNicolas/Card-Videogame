@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/user_charts.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/TemplateData/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Death Race Web</title>
+</head>
+
+<body>
+    <div class="imagen">
+        <header class="header">
+            <h1>Death Race</h1>
+        </header>
+
+        <div class="parent-container">
+            <div class="containers">
+                <h2>Instructions</h2>
+                <p>The game aims to be the first to reach the finish line or eliminate the opponent's vehicle. Players start with health and speed. It's turn-based, with players receiving energy to spend on attack, defense, and speed cards. They can see opponent's next round cards to strategize, choosing any tactic to win.</p>
+            </div>
+
+            <button onclick="window.location.href='/html/unity_game.html';" style="font-size: 20px; padding: 10px 20px; margin-top: 20px;">Play Death Race</button>
+
+            <div class="containers">
+                <h2>Gameplay</h2>
+                <p>Players have limited time for each turn, starting with 4 random cards and 10 energy points. Cards cost energy and have different effects: Attack damages opponents, Defense defends against attacks, and Speed adjusts vehicle speed and distance.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="Video">
+        <div id="creatingChart">
+            <h3>Video Gameplay</h3>
+        </div>
+        <iframe width="760" height="515" src="https://www.youtube.com/embed/x1FADLeY27I" frameborder="0" allowfullscreen></iframe>
+        <canvas id="firstChart" width="600" height="100" style="max-width: 600px; max-height: 600px;"></canvas>
+    </div>
+
+    <div class="container">
+        <h2>Statistics</h2>
+        <div class="chartContainer">
+            <canvas id="victoriesChart" width="400" height="400"></canvas>
+            <canvas id="topUsedCardsChart" width="200" height="400"></canvas>
+            <canvas id="leastUsedCardsChart" width="200" height="400"></canvas>
+            <div class="boxplot">
+                <h3>Average Turns per Game all Players</h3>
+                <p id="averageTurns" style="text-align: center">Calculating...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayStats);
+
+        async function fetchAndDisplayStats() {
+            try {
+                const response = await fetch('/api/summary/general');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const summaryData = await response.json();
+
+                plotChart('victoriesChart', summaryData.totalVictories.map(v => v.victorias), summaryData.totalVictories.map(v => `${v.nombre_jugador}`), 'Total Victories by Player');
+                plotChart('topUsedCardsChart', summaryData.topUsedCards.map(card => card.usos), summaryData.topUsedCards.map(card => card.nombre), 'Top 3 Most Used Cards');
+                plotChart('leastUsedCardsChart', summaryData.leastUsedCards.map(card => card.usos), summaryData.leastUsedCards.map(card => card.nombre), 'Top 3 Least Used Cards');
+                document.getElementById('averageTurns').textContent = `${summaryData.averageTurns}`;
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+        const barColors = ['rgb(200, 80, 110)', 'rgb(211, 109, 36)', 'rgb(200, 31, 130)'];
+
+        function plotChart(canvasId, data, labels, title) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        backgroundColor: barColors, // Asigna los colores del array a las barras
+                        borderColor: barColors.map(color => color.replace('0.5', '1')), // Borde de las barras con la opacidad completa
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

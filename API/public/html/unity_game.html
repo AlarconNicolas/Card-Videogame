@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/user_charts.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/TemplateData/style.css">
+    <title>Death Race Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff; /* Optional: changes background color */
+        }
+        
+        #back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1;
+            padding: 10px 20px;
+            background-color: rgb(190, 20, 30);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #fullscreen-button {
+            position: fixed;
+            top: 10px; /* 5% del alto de la ventana */
+            right: 10px; /* 5% del ancho de la ventana */
+            padding: 10px 20px;
+            z-index: 1;
+            background-color: rgb(15, 100, 150);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        canvas {
+            width: 1200px;
+            height: 600px;
+        }
+
+    </style>
+</head>
+<body>
+    <button id="back-button" onclick="history.back()">Go Back</button>
+    <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
+        <button id="fullscreen-button">Fullscreen</button>
+    </div>
+    <script src="/Build/Build.loader.js"></script>
+    <script>
+        var config = {
+            dataUrl: "/Build/Build.data",
+            frameworkUrl: "/Build/Build.framework.js",
+            codeUrl: "/Build/Build.wasm",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "DefaultCompany",
+            productName: "Death_Race_Unity",
+            productVersion: "1.0",
+        };
+
+        createUnityInstance(document.querySelector("#unity-canvas"), config).then(unityInstance => {
+            document.getElementById('fullscreen-button').onclick = () => unityInstance.SetFullscreen(1);
+        }).catch(error => {
+            console.error("Unity Instance Error:", error);
+        });
+    </script>
+</body>
+</html>

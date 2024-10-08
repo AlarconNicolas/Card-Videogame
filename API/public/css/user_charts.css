@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    background-image: linear-gradient(to bottom, rgb(200, 80, 110), rgb(211, 109, 36));
+}
+
+* {
+    margin: 1%;
+}
+
+h1, h2, h3, p, button, .chartContainer, .chartContainer .chart-text{
+    font-family: 'Press Start 2P', Arial, sans-serif;
+}
+
+h1{
+    margin: 0;
+    font-family: 'Press Start 2P', Arial, sans-serif;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px  1px 0 #000, 1px  1px 0 #000; 
+}
+
+h2, h3 {
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 30px;
+}
+
+.imagen {
+    background-image: url('LogoDeathRace.png');
+    height: 550px;
+    background-size: 100% 110%;
+    background-repeat: no-repeat;
+    background-color: #ffffff; 
+}
+
+.header {
+    padding: 1%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+}
+
+.parent-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containers {
+    width: 500px;
+    height: 250px;
+    overflow-y: auto;
+    margin: 10px;
+    padding: 10px; 
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    text-align: center;
+}
+
+.Video{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    background-image: url('Imagen1.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    padding: 20px;
+}
+
+.chartContainer {
+    border: 0;
+    justify-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+}
+
+.chartContainer canvas {
+    flex-grow: 1;
+    max-width: 30%;
+    max-height: 600px;
+    margin: 1%;
+}
+
+.chartContainer>* {
+    flex: 1 1 auto;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.boxplot {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
